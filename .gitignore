@@ -1,0 +1,4 @@
+/node_modules
+/dist
+# Папка, куда Clinic Doctor добавляет отчеты
+/.clinic

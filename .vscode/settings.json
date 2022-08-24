@@ -1,0 +1,10 @@
+{
+	"Cooment1": "Выбираем дефолтный форматтер vscode-eslint",
+	"[typescript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint"
+	},
+	"Cooment2": "Фикс ошибок при сохранении",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": true
+	}
+}

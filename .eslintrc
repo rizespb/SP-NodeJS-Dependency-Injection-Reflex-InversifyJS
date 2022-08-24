@@ -1,0 +1,50 @@
+{
+	// Определяем Корень проекта
+	"root": true,
+
+	// Использовать не обычный парсер eslint, а typescript-eslint
+	"parser": "@typescript-eslint/parser",
+
+	// Используемые плагины
+	"plugins": ["@typescript-eslint"],
+
+	// Подключаем настройки (в примере используем рекомендованные настройки от eslint-а и prettier
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended"
+	],
+
+	// Перенастраиваем дефолтные правила
+	"rules": {
+		// Разрешить пустые фукнции
+		"no-empty-function": "off",
+
+		// Разрешить писать объект через {} или Object в TS (по-умолчанию, правильно писать с использованием Record)
+		"@typescript-eslint/ban-types": "off",
+
+		// Отключаем запрет на неиспользуемые переменные
+		"@typescript-eslint/no-unused-vars": ["off"],
+
+		// Отключаем запрет на any
+		"@typescript-eslint/no-explicit-any": "off",
+
+		// "Явно указывать у функции, что она возвращает
+		"@typescript-eslint/explicit-function-return-type": ["warn"],
+
+		// Повторяет конфигурацию из .prettierrc. Если увидим нарушение этих правил, то получим error",
+		"prettier/prettier": [
+			"error",
+			{
+				"singleQuote": true,
+				"useTabs": true,
+				"semi": true,
+				"trailingComma": "all",
+				"bracketSpacing": true,
+				"printWidth": 100,
+				"endOfLine": "auto"
+			}
+		]
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			// Имя можно любое
+			"name": "nodemon",
+			// С помощью чего будем запускаться - nodemon - указываем рабочую папку nodemon 
+			"runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
+			// Если что-то отключилось, то переподключиться
+			"restart": true,
+			// В качестве консоли использовать встроенный терминал
+			"console": "integratedTerminal",
+			// Интеграционную консоль не открывать
+			"internalConsoleOptions": "neverOpen"
+		}
+	]
+}
