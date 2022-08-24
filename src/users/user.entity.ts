@@ -21,7 +21,8 @@ export class User {
 	}
 
 	// Метод не может быть сеттером, т.к. мы решили, что он будет кодировать паоль асинхронно. А сеттреы - синхронные
-	public async setPassword(pass: string): Promise<void> {
-		this._password = await hash(pass, 10);
+	// salt - это модфикатор, который усложняет хэширование
+	public async setPassword(pass: string, salt: number): Promise<void> {
+		this._password = await hash(pass, salt);
 	}
 }

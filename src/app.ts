@@ -1,12 +1,14 @@
 import express, { Express } from 'express';
 import { Server } from 'http';
-import { UserController } from './users/users.controller';
-import { ExceptionFilter } from './errors/exeption.filter';
 import { ILogger } from './logger/logger.interface';
 import { inject, injectable } from 'inversify';
 import { TYPES } from './types';
 import 'reflect-metadata';
 import { json } from 'body-parser';
+import { IConfigService } from './config/config.service.inteface';
+import { IUserController } from './users/users.controller.interface';
+import { IExceptionFilter } from './errors/exeption.filter.interface';
+import { UserController } from './users/users.controller';
 
 // @injectable() - декоратор, который говорит о том, что данный класс МОЖНО положить в контейнер
 @injectable()
@@ -27,7 +29,8 @@ export class App {
 		// В контейнера ILogger связан с классом LoggerService через константу TYPES.ILogger
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.UserController) private userController: UserController,
-		@inject(TYPES.ExceptionFilter) private expetionFilter: ExceptionFilter,
+		@inject(TYPES.ExceptionFilter) private expetionFilter: IExceptionFilter,
+		@inject(TYPES.ConfigService) private configService: IConfigService,
 	) {
 		this.app = express();
 		this.port = 8000;
