@@ -13,6 +13,9 @@ import { UserService } from './users.service';
 import { sign } from 'jsonwebtoken';
 import { IConfigService } from '../config/config.service.inteface';
 import { IUserService } from './users.service.interface';
+import { ParamsDictionary } from 'express-serve-static-core';
+import { ParsedQs } from 'qs';
+import { AuthGuard } from '../common/auth.guard';
 
 // @injectable() - декоратор, который говорит о том, что данный класс МОЖНО положить в контейнер
 @injectable()
@@ -49,6 +52,7 @@ export class UserController extends BaseController implements IUserController {
 				path: '/info',
 				method: 'get',
 				func: this.info,
+				middlewares: [new AuthGuard()],
 			},
 		]);
 	}
@@ -91,6 +95,12 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: result.email, id: result.id });
 	}
 
+	// Метод для проверки валидности JWT
+	// На данный момент в объект req уже добавлено поле user, в котором хранится email, полученный в AuthMiddleware из пришедшего с запросом JWT-токена
+	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
+		this.ok(res, { email: user });
+	}
+
 	// Формирование подписи JWT
 	// Сами решаем, что шифровать: email
 	// Также необходимо добавить секрет
@@ -118,11 +128,5 @@ export class UserController extends BaseController implements IUserController {
 				},
 			);
 		});
-	}
-
-	// Метод для проверки валидности JWT
-	// На данный момент в объект req уже добавлено поле user, в котором хранится email, полученный в AuthMiddleware из пришедшего с запросом JWT-токена
-	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
-		this.ok(res, { email: user });
 	}
 }
