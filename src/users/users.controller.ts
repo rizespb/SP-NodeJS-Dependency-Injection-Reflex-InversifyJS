@@ -35,18 +35,30 @@ export class UserController extends BaseController implements IUserController {
 				func: this.register,
 				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
+			},
 		]);
 	}
 
 	// Третий интерфейс в дженерике Request - это Request Body
-	login(req: Request<{}, {}, UserLoginDto>, res: Response, next: NextFunction): void {
+	async login(
+		req: Request<{}, {}, UserLoginDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
 		// this.ok(res, 'login')
+		const result = await this.userService.validateUser(req.body);
 
-		console.log(req.body);
+		if (!result) {
+			// Имитация ошибки
+			return next(new HTTPError(401, 'Ошибка авторизации', 'login'));
+		}
 
-		// Имитация ошибки
-		next(new HTTPError(401, 'Ошибка авторизации', 'login'));
+		this.ok(res, {});
 	}
 
 	// Третий интерфейс в дженерике Request - это Request Body
@@ -61,6 +73,6 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HTTPError(422, 'Такой пользователь уже существует'));
 		}
 
-		this.ok(res, { email: result.email });
+		this.ok(res, { email: result.email, id: result.id });
 	}
 }

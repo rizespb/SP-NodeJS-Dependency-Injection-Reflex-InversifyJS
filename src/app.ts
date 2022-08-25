@@ -9,6 +9,7 @@ import { IConfigService } from './config/config.service.inteface';
 import { IUserController } from './users/users.controller.interface';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { UserController } from './users/users.controller';
+import { PrismaService } from './database/prisma.service';
 
 // @injectable() - декоратор, который говорит о том, что данный класс МОЖНО положить в контейнер
 @injectable()
@@ -31,6 +32,7 @@ export class App {
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.ExceptionFilter) private expetionFilter: IExceptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
+		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -56,6 +58,9 @@ export class App {
 
 		// Обработку ошибок ставим после всех MiddleWare - оно отработает, если ни один из предудыщих слоев не смог обработать запрос
 		this.useExeptionFilters();
+
+		// Подключаемся к БД
+		await this.prismaService.connect();
 
 		this.server = this.app.listen(this.port);
 
