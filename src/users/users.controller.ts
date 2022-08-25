@@ -45,6 +45,11 @@ export class UserController extends BaseController implements IUserController {
 				func: this.login,
 				middlewares: [new ValidateMiddleware(UserLoginDto)],
 			},
+			{
+				path: '/info',
+				method: 'get',
+				func: this.info,
+			},
 		]);
 	}
 
@@ -113,5 +118,11 @@ export class UserController extends BaseController implements IUserController {
 				},
 			);
 		});
+	}
+
+	// Метод для проверки валидности JWT
+	// На данный момент в объект req уже добавлено поле user, в котором хранится email, полученный в AuthMiddleware из пришедшего с запросом JWT-токена
+	async info({ user }: Request, res: Response, next: NextFunction): Promise<void> {
+		this.ok(res, { email: user });
 	}
 }

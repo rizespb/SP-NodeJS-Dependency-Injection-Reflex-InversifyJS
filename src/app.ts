@@ -10,6 +10,7 @@ import { IUserController } from './users/users.controller.interface';
 import { IExceptionFilter } from './errors/exeption.filter.interface';
 import { UserController } from './users/users.controller';
 import { PrismaService } from './database/prisma.service';
+import { AuthMiddleware } from './common/auth.middleware';
 
 // @injectable() - декоратор, который говорит о том, что данный класс МОЖНО положить в контейнер
 @injectable()
@@ -38,9 +39,14 @@ export class App {
 		this.port = 8000;
 	}
 
-	// Слой для парсинга всех входящих запросов и сериализации json
+	// Слой для парсинга всех входящих запросов
+	// сериализации json в запросе
+	// Проверки JWT
 	useMiddleware(): void {
 		this.app.use(json());
+
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	useRoutes(): void {

@@ -8,6 +8,6 @@
 	"Comment3": "Игнорировать файлы",
 	"ignore": ["src/**/*.spec.ts"],
 
-	"Comment4": "То, что мы должны запускать, при вызове Nodemon",
+	"Comment4": "То, что мы должны запускать, при вызове Nodemon. Флаг --files говорит подтягивать кастомные файлы типов, типа custom.d.ts",
 	"exec": "ts-node --files ./src/main.ts"
 }
