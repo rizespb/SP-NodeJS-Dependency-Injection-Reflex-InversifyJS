@@ -2,5 +2,6 @@
 /dist
 # Папка, куда Clinic Doctor добавляет отчеты
 /.clinic
-/prisma/dev.db
-/prisma/dev.db-journal
+#/prisma/dev.db
+#/prisma/dev.db-journal
+/coverage

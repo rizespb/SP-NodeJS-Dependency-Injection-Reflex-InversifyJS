@@ -72,4 +72,9 @@ export class App {
 
 		this.logger.log(`Сервер запущен на http://localhost:${this.port}`);
 	}
+
+	// Метод для закрытия сервера. Добавили для того, чтобы закрыть сервер после тестов
+	public close(): void {
+		this.server.close();
+	}
 }

@@ -16,6 +16,8 @@
 		"lint:fix": "eslint ./src/** --fix",
 		"build": "tsc",
 		"test": "jest",
+		"Comment5": "В качестве конфига для e2e-тестов передаем jest.e2e.config.ts",
+		"test:e2e": "jest --config jest.e2e.config.ts --coverage",
 		"generate": "prisma generate"
 	},
 	"author": "Rizespb",

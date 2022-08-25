@@ -50,17 +50,17 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<App>(TYPES.Application).to(App);
 });
 
-function bootstrap(): BootstrapReturn {
+async function bootstrap(): Promise<BootstrapReturn> {
 	const appContainer = new Container();
 	appContainer.load(appBindings);
 
 	// Получаем экземпляр класса app
 	const app = appContainer.get<App>(TYPES.Application);
 
-	app.init();
+	await app.init();
 
 	return { appContainer, app };
 }
 
 // Экспорты заранее указали для дальнейшего использования их в тестах
-export const { app, appContainer } = bootstrap();
+export const boot = bootstrap();
